@@ -1,4 +1,4 @@
-export const TODO_LIST_ADDRESS = '0xB8534037F171D43Be591dd63F259823957a394C9'
+export const TODO_LIST_ADDRESS = '0xfec4d771Ad0B6c6a25a8492Bbebe92F969B4dEE9'
 
 export const TODO_LIST_ABI = [
   {
@@ -6,6 +6,19 @@ export const TODO_LIST_ABI = [
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "totalCost",
+        "type": "int256"
+      }
+    ],
+    "name": "UpdateWalletBalance",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -24,9 +37,9 @@ export const TODO_LIST_ABI = [
       },
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "int256",
         "name": "quantity",
-        "type": "uint256"
+        "type": "int256"
       },
       {
         "indexed": false,
@@ -90,9 +103,9 @@ export const TODO_LIST_ABI = [
         "type": "string"
       },
       {
-        "internalType": "uint256",
+        "internalType": "int256",
         "name": "quantity",
-        "type": "uint256"
+        "type": "int256"
       },
       {
         "internalType": "int256",
@@ -111,9 +124,39 @@ export const TODO_LIST_ABI = [
         "internalType": "string",
         "name": "_wasteMaterial",
         "type": "string"
+      },
+      {
+        "internalType": "int256",
+        "name": "_quantity",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "_cost",
+        "type": "int256"
       }
     ],
     "name": "depositWaste",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "int256",
+        "name": "_quantity",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "_cost",
+        "type": "int256"
+      }
+    ],
+    "name": "updateWalletBalance",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

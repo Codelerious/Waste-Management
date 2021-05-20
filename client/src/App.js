@@ -18,6 +18,8 @@ class App extends Component {
     const wasteManagement = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
     this.setState({ wasteManagement })
     const id = await wasteManagement.methods.id().call()
+    const totalCost = await wasteManagement.methods.totalCost().call()
+    this.setState({ totalCost })
     console.log("wasteManagement: ", wasteManagement)
     this.setState({ id })
     for (var i = 1; i <= id; i++) {
@@ -37,12 +39,18 @@ class App extends Component {
       account: '',
       id: 0,
       wastes: [],
+      totalCost: 0,
     }
      this.depositWaste = this.depositWaste.bind(this);
+     this.updateWalletBalance = this.updateWalletBalance.bind(this);
   }
 
-  depositWaste(content) {
-    this.state.wasteManagement.methods.depositWaste(content).send({ from: this.state.account })
+  depositWaste(content, quantity, cost) {
+    this.state.wasteManagement.methods.depositWaste(content, quantity, cost).send({ from: this.state.account })
+  }
+
+  updateWalletBalance(quantity, cost) {
+    this.state.wasteManagement.methods.updateWalletBalance(quantity, cost).send({ from: this.state.account })
   }
   
 
@@ -51,36 +59,28 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/* <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="http://www.dappuniversity.com/free-download" target="_blank">Dapp University | Todo List</a>
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-              <small><a className="nav-link" href="#"><span id="account"></span></a></small>
-            </li>
-          </ul>
-        </nav>
-        <div className="container-fluid">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex justify-content-center">
-              { this.state.loading
-                ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
-                : <TodoList
-                  tasks={this.state.tasks}
-                  createTask={this.createTask}
-                  toggleCompleted={this.toggleCompleted} />
-              }
-            </main>
-          </div> 
-        </div> */}
-        
+        <div>
+          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <h2 className="navbar-brand">Waste Tracker</h2>
+            <span class="navbar-text ms-auto">
+              Wallet Balance: {this.state.totalCost}
+            </span>
+          </nav>
+        </div>
+        <br/>
         <div className="container-fluid">
         
           <div className="row">
-            <h1 className="col-lg-12 d-flex justify-content-center">Hello World</h1>
-            <main role="main" className="col-lg-12 d-flex justify-content-center">  
+            <br/>
+            <br/>
+            <h1 className="col-lg-12 d-flex justify-content-center">Enter Details of Waste Deposited Here</h1>
+            
+            <main role="main" className="col-lg-12 main justify-content-center">
+                <br/>  
                 <WasteManagement
                   wastes={this.state.wastes}
-                  depositWaste={this.depositWaste} />
+                  depositWaste={this.depositWaste} 
+                  updateWalletBalance={this.updateWalletBalance}/>
             </main>
           </div>
         </div>
